@@ -8,6 +8,9 @@ public class PlayerBehavior : MonoBehaviour
     public float jumpForce = 7f;     // ジャンプ力
     private Rigidbody2D rb;          // 2D物理演算用リジッドボディ
     private bool isGrounded = false; // 地面についているかの判定
+    float rayLength = 0.1f;
+    RaycastHit2D hit;
+
 
     void Start()
     {
@@ -43,11 +46,12 @@ public class PlayerBehavior : MonoBehaviour
     // --- 地面に接触したとき ---
     void OnCollisionEnter2D(Collision2D collision)
     {
-        // groundという名前のタグを地面オブジェクトに付けておく
-        if (collision.gameObject.name == "Plane")
+        foreach (ContactPoint2D contact in collision.contacts){
+            if (collision.gameObject != null && (contact.point.y < transform.position.y - rayLength))
         {
             Debug.Log("Grounded");
             isGrounded = true;
+        }
         }
     }
 }
