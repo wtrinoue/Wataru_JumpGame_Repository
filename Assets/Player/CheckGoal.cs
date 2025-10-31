@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GoalChecker : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class GoalChecker : MonoBehaviour
         if (other.name == "Goal")
         {
             Debug.Log("Goal reached!");
+            SceneManager.LoadScene("ClearScene");
         }
     }
 }
