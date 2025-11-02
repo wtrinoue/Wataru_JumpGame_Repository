@@ -7,7 +7,7 @@ public class PlayerBehavior : MonoBehaviour
     public float moveSpeed = 5f;     // 水平方向の移動速度
     public float jumpForce = 7f;     // ジャンプ力
     private Rigidbody2D rb;          // 2D物理演算用リジッドボディ
-    private bool isGrounded = false; // 地面についているかの判定
+    private bool isGrounded; // 地面についているかの判定
     float rayLength = 0.1f;
     RaycastHit2D hit;
 
@@ -16,10 +16,12 @@ public class PlayerBehavior : MonoBehaviour
     {
         // Rigidbody2Dを取得
         rb = GetComponent<Rigidbody2D>();
+        isGrounded = false;
     }
 
     void Update()
     {
+        Debug.Log(isGrounded);
         // --- 左右移動 ---
         float move = 0f;
 
@@ -35,6 +37,7 @@ public class PlayerBehavior : MonoBehaviour
         // Rigidbody2D の速度を直接変更（Time.deltaTimeは不要）
         rb.velocity = new Vector2(move * moveSpeed, rb.velocity.y);
 
+
         // --- ジャンプ ---
         if (Input.GetKeyDown(KeyCode.W) && isGrounded)
         {
@@ -46,12 +49,13 @@ public class PlayerBehavior : MonoBehaviour
     // --- 地面に接触したとき ---
     void OnCollisionEnter2D(Collision2D collision)
     {
-        foreach (ContactPoint2D contact in collision.contacts){
-            if (collision.gameObject != null && (contact.point.y < transform.position.y - rayLength))
+
+        Debug.Log(collision.gameObject.CompareTag("Ground"));
+
+        if (collision.gameObject.CompareTag("Ground"))
         {
-            Debug.Log("Grounded");
             isGrounded = true;
-        }
+            Debug.Log("Ground判定");
         }
     }
 }
