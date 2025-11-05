@@ -10,6 +10,7 @@ public class PlayerBehavior : MonoBehaviour
     private bool isGrounded; // 地面についているかの判定
     float rayLength = 0.1f;
     RaycastHit2D hit;
+    public GameObject panel;
 
 
     void Start()
@@ -51,12 +52,19 @@ public class PlayerBehavior : MonoBehaviour
     {
 
         Debug.Log(collision.gameObject.CompareTag("Ground"));
+        Debug.Log(collision.gameObject.name);
 
         if (collision.gameObject.CompareTag("Ground"))
         {
             isGrounded = true;
             Debug.Log("Ground判定");
         }
+
+        // if (collision.gameObject.name == "Step (3)")
+        // {
+        //     bool isActive = collision.gameObject.activeSelf;
+        //     panel.SetActive(!isActive);
+        // }
     }
 }
 
