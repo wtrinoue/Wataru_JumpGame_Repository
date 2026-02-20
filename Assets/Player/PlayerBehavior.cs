@@ -8,6 +8,7 @@ public class PlayerBehavior : MonoBehaviour
     public float jumpForce = 7f;     // ジャンプ力
     private Rigidbody2D rb;          // 2D物理演算用リジッドボディ
     private bool isGrounded; // 地面についているかの判定
+    private AudioSource audioSource;
     float rayLength = 0.1f;
     RaycastHit2D hit;
     public GameObject panel;
@@ -18,6 +19,7 @@ public class PlayerBehavior : MonoBehaviour
         // Rigidbody2Dを取得
         rb = GetComponent<Rigidbody2D>();
         isGrounded = false;
+        audioSource = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -44,6 +46,7 @@ public class PlayerBehavior : MonoBehaviour
         {
             rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
             isGrounded = false; // 空中判定
+            audioSource.Play();
         }
     }
 
