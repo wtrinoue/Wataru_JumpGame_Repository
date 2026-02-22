@@ -8,7 +8,7 @@ public class GoBackStartPos : MonoBehaviour
     void Start()
     {
         //初期位置に配置
-        transform.position = new Vector3(-7,-3,0);
+        transform.position = new Vector3(-10,-3,0);
     }
 
     // Update is called once per frame
