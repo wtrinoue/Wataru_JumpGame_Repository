@@ -7,7 +7,10 @@ public class PlayerBehavior : MonoBehaviour
     public float moveSpeed = 5f;     // 水平方向の移動速度
     public float jumpForce = 7f;     // ジャンプ力
     private Rigidbody2D rb;          // 2D物理演算用リジッドボディ
+    private SpriteRenderer sr;
     private bool isGrounded; // 地面についているかの判定
+    private AudioSource audioSource;
+    private PlayerAnimation playerAnimation;
     float rayLength = 0.1f;
     RaycastHit2D hit;
     public GameObject panel;
@@ -17,7 +20,10 @@ public class PlayerBehavior : MonoBehaviour
     {
         // Rigidbody2Dを取得
         rb = GetComponent<Rigidbody2D>();
+        sr = GetComponent<SpriteRenderer>();
         isGrounded = false;
+        audioSource = GetComponent<AudioSource>();
+        playerAnimation = GetComponent<PlayerAnimation>();
     }
 
     void Update()
@@ -28,11 +34,27 @@ public class PlayerBehavior : MonoBehaviour
 
         if (Input.GetKey(KeyCode.A))
         {
+            sr.flipX = true;
             move = -1f;
         }
         if (Input.GetKey(KeyCode.D))
         {
+            sr.flipX = false;
             move = 1f; // 右
+        }
+
+        if (isGrounded)
+        {
+            if(move == 0f)
+            {
+                playerAnimation.SetRun(false);
+            }else if(move > 0)
+            {
+                playerAnimation.SetRun(true);
+            }else if(move < 0)
+            {
+                playerAnimation.SetRun(true);
+            }
         }
 
         // Rigidbody2D の速度を直接変更（Time.deltaTimeは不要）
@@ -44,6 +66,9 @@ public class PlayerBehavior : MonoBehaviour
         {
             rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
             isGrounded = false; // 空中判定
+            audioSource.Play();
+            playerAnimation.SetRun(false);
+            playerAnimation.SetJumpTrigger();
         }
     }
 
